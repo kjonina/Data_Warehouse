@@ -1,0 +1,859 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="10/7/2020 10:37:06 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="DESKTOP-224OF63"
+  DTS:CreatorName="DESKTOP-224OF63\madan"
+  DTS:DTSID="{DC9D8AC6-80FB-4659-B13B-8EBF7CDC784B}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="15.0.2000.132"
+  DTS:LocaleID="6153"
+  DTS:ObjectName="ETL_Title_Type123"
+  DTS:PackageType="5"
+  DTS:VersionBuild="47"
+  DTS:VersionGUID="{AE7FD2AB-B49B-4437-AA19-590DBE12BB7C}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPTOP-5QNP9637.Publisher]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{31342608-1F5B-4A11-A2D1-6DDD41291F0F}"
+      DTS:ObjectName="LAPTOP-5QNP9637.Publisher">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=LAPTOP-5QNP9637;Initial Catalog=Publisher;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[LAPTOP-5QNP9637.PublisherDW]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{BEF555E3-0F57-40A5-9A52-50CB5E750E7F}"
+      DTS:ObjectName="LAPTOP-5QNP9637.PublisherDW">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=LAPTOP-5QNP9637;Initial Catalog=PublisherDW;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{80444C7E-BF0D-4F2D-9AD9-653EDE43EDC4}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="ETLID">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{258ACA58-14E7-4BE7-BD3A-B6AEC3F37533}"
+      DTS:IncludeInDebugDump="6789"
+      DTS:Namespace="User"
+      DTS:ObjectName="RecordCount">
+      <DTS:VariableValue
+        DTS:DataType="3">0</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Create New ETL Logging Record"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{AEDA83B6-C22D-4449-9F69-BEA0A0538F5A}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Create New ETL Logging Record"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BEF555E3-0F57-40A5-9A52-50CB5E750E7F}"
+          SQLTask:SqlStatementSource="EXEC CreateETLLoggingRecord&#xA;@TableName = 'Title_Dim',&#xA;@ETLID = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::ETLID"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Load Data to Staging Table"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{05A19F53-1153-455D-908C-FE25DDC0E4D5}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Load Data to Staging Table"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Load Data to Staging Table\Get Data From Title"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="Get Data From Title"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset"></property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor">SELECT t.Title_id, t.Title, t.price, t.type, loc.city, loc.country
+FROM Publisher.dbo.Titles t INNER JOIN
+Publisher.dbo.locations loc
+ON t.loc_id = loc.loc_id</property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">2</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data to Staging Table\Get Data From Title.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-5QNP9637.Publisher]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-5QNP9637.Publisher]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[city]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[city]"
+                      length="20"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[city]"
+                      name="city"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[Title_id]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[Title_id]"
+                      length="20"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[Title_id]"
+                      name="Title_id"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[Title]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[Title]"
+                      length="80"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[Title]"
+                      name="Title"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[price]"
+                      dataType="cy"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[price]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[price]"
+                      name="price"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[type]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[type]"
+                      length="12"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[type]"
+                      name="type"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[country]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[country]"
+                      length="30"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[country]"
+                      name="country"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[city]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="city" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[Title_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="Title_id" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[Title]"
+                      codePage="1252"
+                      dataType="str"
+                      length="80"
+                      name="Title" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[price]"
+                      dataType="cy"
+                      name="price" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="type" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].ExternalColumns[country]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="country" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[Title_id]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[Title_id]"
+                      name="Title_id" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[Title]"
+                      codePage="1252"
+                      dataType="str"
+                      length="80"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[Title]"
+                      name="Title" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[price]"
+                      dataType="cy"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[price]"
+                      name="price" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[type]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[type]"
+                      name="type" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[city]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[city]"
+                      name="city" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[country]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[country]"
+                      name="country" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Load Data to Staging Table\Load Data to Staging Table"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="Load Data to Staging Table"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[stg_Title_Dim]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">2147483647</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Load Data to Staging Table\Load Data to Staging Table.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[LAPTOP-5QNP9637.PublisherDW]"
+                  connectionManagerRefId="Package.ConnectionManagers[LAPTOP-5QNP9637.PublisherDW]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].Columns[Title_id]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="Title_id"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TitleID]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[Title_id]" />
+                    <inputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].Columns[Title]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="80"
+                      cachedName="Title"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TName]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[Title]" />
+                    <inputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].Columns[type]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="type"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TType]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[type]" />
+                    <inputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].Columns[city]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="20"
+                      cachedName="city"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TCity]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[city]" />
+                    <inputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].Columns[country]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="country"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TCountry]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[country]" />
+                    <inputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].Columns[price]"
+                      cachedDataType="cy"
+                      cachedName="price"
+                      externalMetadataColumnId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TPrice]"
+                      lineageId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output].Columns[price]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TitleID]"
+                      codePage="1252"
+                      dataType="str"
+                      length="20"
+                      name="TitleID" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="100"
+                      name="TName" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TType]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TType" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TCity" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TCountry]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="TCountry" />
+                    <externalMetadataColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input].ExternalColumns[TPrice]"
+                      dataType="cy"
+                      name="TPrice" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Load Data to Staging Table\Load Data to Staging Table.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Load Data to Staging Table\Load Data to Staging Table.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Load Data to Staging Table\Load Data to Staging Table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Load Data to Staging Table\Load Data to Staging Table.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Load Data to Staging Table.Paths[OLE DB Source Output]"
+              endId="Package\Load Data to Staging Table\Load Data to Staging Table.Inputs[OLE DB Destination Input]"
+              name="OLE DB Source Output"
+              startId="Package\Load Data to Staging Table\Get Data From Title.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Merge data to dimension table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{F772D672-BE24-43D6-858D-2F344D6C9805}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Merge data to dimension table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BEF555E3-0F57-40A5-9A52-50CB5E750E7F}"
+          SQLTask:SqlStatementSource="DECLARE @PST datetime&#xA;SET @PST = getdate( )&#xA;&#xA;EXEC Merge_Title_Dim&#xA;@PackageStartTime = @PST,&#xA;@RecordCount = ? OUTPUT" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::RecordCount"
+            SQLTask:ParameterDirection="Output"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Truncate Staging Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{24CBAACC-AF59-4157-BDD9-54BEA90FE4EB}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Truncate Staging Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BEF555E3-0F57-40A5-9A52-50CB5E750E7F}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE stg_Title_Dim" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Update ETL Logging Record"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute SQL Task"
+      DTS:DTSID="{B3A04C56-20FD-4E76-A0F4-84A44A419063}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Update ETL Logging Record"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2019; © 2019 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{BEF555E3-0F57-40A5-9A52-50CB5E750E7F}"
+          SQLTask:SqlStatementSource="EXEC UpdateETLLoggingRecord&#xA;@ETLID = ?,&#xA;@RecordCount = ?" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="User::ETLID"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::RecordCount"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="3"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{974D45D4-3E2F-4B5F-970C-0119968F3A1A}"
+      DTS:From="Package\Create New ETL Logging Record"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Truncate Staging Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{14CE3F0A-6F90-41C6-97E9-123D1CAE3E69}"
+      DTS:From="Package\Truncate Staging Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Load Data to Staging Table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 2]"
+      DTS:CreationName=""
+      DTS:DTSID="{A91FAD9D-7E58-4D6E-9C11-32A81A99C960}"
+      DTS:From="Package\Load Data to Staging Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 2"
+      DTS:To="Package\Merge data to dimension table" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 3]"
+      DTS:CreationName=""
+      DTS:DTSID="{AB7A0890-776C-4358-A218-E070169385C2}"
+      DTS:From="Package\Merge data to dimension table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 3"
+      DTS:To="Package\Update ETL Logging Record" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="16" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="236,42.4"
+          Id="Package\Create New ETL Logging Record"
+          TopLeft="188.958330496939,24.6315794109968" />
+        <NodeLayout
+          Size="204.8,41.6"
+          Id="Package\Load Data to Staging Table"
+          TopLeft="191.87499714084,173.789476955366" />
+        <NodeLayout
+          Size="217.6,41.6"
+          Id="Package\Merge data to dimension table"
+          TopLeft="189.999997168779,247.684215188357" />
+        <NodeLayout
+          Size="190.4,42.4"
+          Id="Package\Truncate Staging Table"
+          TopLeft="189.374997178093,99.8947387223759" />
+        <NodeLayout
+          Size="214.4,42.4"
+          Id="Package\Update ETL Logging Record"
+          TopLeft="204.583330264109,324.252637007711" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="306.958330496939,67.0315794109968">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="-22.3833333188456,32.8631593113791"
+              Start="0,0"
+              End="-22.3833333188456,25.3631593113791">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,12.4315796556896" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,12.4315796556896"
+                    Point2="0,16.4315796556896"
+                    Point3="-4,16.4315796556896" />
+                  <mssgle:LineSegment
+                    End="-18.3833333188456,16.4315796556896" />
+                  <mssgle:CubicBezierSegment
+                    Point1="-18.3833333188456,16.4315796556896"
+                    Point2="-22.3833333188456,16.4315796556896"
+                    Point3="-22.3833333188456,20.4315796556896" />
+                  <mssgle:LineSegment
+                    End="-22.3833333188456,25.3631593113791" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="284.574997178093,142.294738722376">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="9.69999996274703,31.4947382329901"
+              Start="0,0"
+              End="9.69999996274703,23.9947382329901">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,11.7473691164951" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,11.7473691164951"
+                    Point2="0,15.7473691164951"
+                    Point3="4,15.7473691164951" />
+                  <mssgle:LineSegment
+                    End="5.69999996274703,15.7473691164951" />
+                  <mssgle:CubicBezierSegment
+                    Point1="5.69999996274703,15.7473691164951"
+                    Point2="9.69999996274703,15.7473691164951"
+                    Point3="9.69999996274703,19.7473691164951" />
+                  <mssgle:LineSegment
+                    End="9.69999996274703,23.9947382329901" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 2]"
+          TopLeft="296.53749715481,215.389476955366">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="0,32.294738232991"
+              Start="0,0"
+              End="0,24.794738232991">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,24.794738232991" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 3]"
+          TopLeft="298.799997168779,289.284215188357">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="12.98333309533,34.9684218193539"
+              Start="0,0"
+              End="12.98333309533,27.4684218193539">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,13.484210909677" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,13.484210909677"
+                    Point2="0,17.484210909677"
+                    Point3="4,17.484210909677" />
+                  <mssgle:LineSegment
+                    End="8.98333309532995,17.484210909677" />
+                  <mssgle:CubicBezierSegment
+                    Point1="8.98333309532995,17.484210909677"
+                    Point2="12.98333309533,17.484210909677"
+                    Point3="12.98333309533,21.484210909677" />
+                  <mssgle:LineSegment
+                    End="12.98333309533,27.4684218193539" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Load Data to Staging Table">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="4" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="169.6,41.6"
+          Id="Package\Load Data to Staging Table\Get Data From Title"
+          TopLeft="281.249995809048,32.8421058813291" />
+        <NodeLayout
+          Size="209.6,42.4"
+          Id="Package\Load Data to Staging Table\Load Data to Staging Table"
+          TopLeft="283.749995771796,114.947370584652" />
+        <EdgeLayout
+          Id="Package\Load Data to Staging Table.Paths[OLE DB Source Output]"
+          TopLeft="366.049995809048,74.4421058813291">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="22.499999962748,40.5052647033229"
+              Start="0,0"
+              End="22.499999962748,33.0052647033229">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,16.2526323516615" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,16.2526323516615"
+                    Point2="0,20.2526323516615"
+                    Point3="4,20.2526323516615" />
+                  <mssgle:LineSegment
+                    End="18.499999962748,20.2526323516615" />
+                  <mssgle:CubicBezierSegment
+                    Point1="18.499999962748,20.2526323516615"
+                    Point2="22.499999962748,20.2526323516615"
+                    Point3="22.499999962748,24.2526323516615" />
+                  <mssgle:LineSegment
+                    End="22.499999962748,33.0052647033229" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data to Staging Table\Get Data From Title">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Load Data to Staging Table\Load Data to Staging Table">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
