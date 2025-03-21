@@ -4,7 +4,7 @@ Completed as part of a group assignment with Polly Lloyd and Stephen Quinn for m
 ### The Goal
 The aim of the data warehouse was to enable Publisher Ltd to capture relevant sales process information from their databases, including both current and historical data. The data needed to be stored at a granular level to allow for analysis by title, book type, time period, store, and publishing location while maintaining efficiency and optimization.
 
-### Solution:
+### Solution
 A data warehouse was designed using Kimball’s 4-step methodology:
 
 - Business Process: Sales was identified as the core business process
@@ -28,4 +28,4 @@ A star schema was implemented to structure the data warehouse. SQL Server Manage
 - Data Warehousing: Understanding star schema and dimensional modeling.
 - ETL Development: Using SQL Server and SSIS for data extraction, transformation, and loading.
 - Business Intelligence: Generating reports and SQL Views for sales analysis.
--Stakeholder Management: Aligning data solutions with business needs.
+- Stakeholder Management: Aligning data solutions with business needs.
